@@ -1,8 +1,27 @@
 import React, { useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
 import { useAuth } from '../../providers/Auth';
+import { items } from '../../mockData/youtube-videos-mock.json'
 import './Home.styles.css';
+import styled from 'styled-components'
+
+const Videos = styled.div`
+margin-top: 15px;
+margin-left: 5%;
+display:flex;
+flex-wrap: wrap;
+justify-content: space-around;
+width:90%;
+`
+
+const Card = styled.div`
+width:30%;
+`
+
+const Image = styled.img`
+max-width:100%;
+max-height:100%;
+`
 
 function HomePage() {
   const history = useHistory();
@@ -28,10 +47,18 @@ function HomePage() {
             <span className="separator" />
             <Link to="/secret">show me something cool →</Link>
           </span>
+          < Videos >
+            {items.map((item)=>(
+              <Card key={`${item.snippet.publishedAt}${item.snippet.title}`}>
+                <Image src={item.snippet.thumbnails.medium.url} />
+                <p>{item.snippet.title}</p>
+              </Card>
+            ))}
+          </ Videos>
         </>
       ) : (
         <Link to="/login">let me in →</Link>
-      )}
+        )}
     </section>
   );
 }
