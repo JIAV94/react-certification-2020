@@ -17,19 +17,20 @@ const Header = () => {
   };
 
   return (
-      <Navbar>
-        <Div style={{alignItems: "center"}}>
-          <Button>
-            <MenuIcon />
+      <Navbar data-testid='navbar'>
+        <Div data-testid='leftElements'>
+          <Button data-testid='hamburgerButton'>
+            <MenuIcon data-testid='hamburgerIcon'/>
           </Button>
-          <SearchIcon />
-          <SearchInput placeholder="Search..."/>
+          <SearchIcon data-testid='searchIcon'/>
+          <SearchInput data-testid='searchInput' placeholder="Search..."/>
         </Div>
-        <Div style={{display: "flex"}}>
+        <Div data-testid='rightElements'>
           <FormGroup>
             <FormControlLabel
               control={
                 <Switch
+                  data-testid='darkModeSwitch'
                   checked={darkMode}
                   onChange={handleChange}
                   name="checkedB"
@@ -39,8 +40,8 @@ const Header = () => {
               label="Dark mode"
             />
           </FormGroup>
-          <Button>
-            <PersonIcon />
+          <Button data-testid='loginButton' >
+            <PersonIcon data-testid='personIcon' />
           </Button>
         </Div>
       </Navbar>
