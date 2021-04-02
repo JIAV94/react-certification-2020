@@ -1,6 +1,12 @@
 {
-  "extends": ["react-app", "airbnb", "prettier", "prettier/react"],
-  "plugins": ["prettier"],
+  "extends": [
+    "react-app",
+    "airbnb",
+    "prettier",
+    "prettier/react",
+    "plugin:testing-library/react"
+  ],
+  "plugins": ["prettier, testing-library"],
   "rules": {
     "prettier/prettier": "error",
     "react/jsx-filename-extension": "error",
@@ -12,6 +18,12 @@
     "react/prop-types": "off",
     "array-callback-return": "off",
     "consistent-return": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "testing-library/await-async-query": "error",
+    "testing-library/await-async-utils": "error",
+    "testing-library/no-await-sync-query": "error",
+    "testing-library/no-debug": "warn",
+    "testing-library/no-dom-import": "warn",
+    "testing-library/prefer-find-by": "warn"
   }
 }

@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../providers/Auth';
-import { items } from '../../mockData/youtube-videos-mock.json'
 import './Home.styles.css';
 import styled from 'styled-components'
+import { useFetch } from '../../hooks/useFetch'
+import { YoutubeContext } from '../../providers/Youtube';
 
 const Videos = styled.div`
 margin-top: 15px;
@@ -15,7 +16,13 @@ width:90%;
 `
 
 const Card = styled.div`
-width:30%;
+width:345px;
+background-color: lightgray;
+box-shadow: 1px 1px 0px 0px gray;
+border-radius: 5px;
+overflow:hidden; 
+padding-top: 3px;
+margin:5px;
 `
 
 const Image = styled.img`
@@ -24,9 +31,15 @@ max-height:100%;
 `
 
 function HomePage() {
+  const { video, query } = useContext(YoutubeContext);
+  const [ , setVideoData ] = video;
+  const [ queryString ] = query;
+
   const history = useHistory();
   const sectionRef = useRef(null);
   const { authenticated, logout } = useAuth();
+
+  const [videos, loading] = useFetch(queryString)
 
   function deAuthenticate(event) {
     event.preventDefault();
@@ -47,18 +60,23 @@ function HomePage() {
             <span className="separator" />
             <Link to="/secret">show me something cool →</Link>
           </span>
-          < Videos >
-            {items.map((item)=>(
-              <Card key={`${item.snippet.publishedAt}${item.snippet.title}`}>
-                <Image src={item.snippet.thumbnails.medium.url} />
-                <p>{item.snippet.title}</p>
-              </Card>
-            ))}
-          </ Videos>
         </>
       ) : (
         <Link to="/login">let me in →</Link>
-        )}
+      )}
+      {loading 
+        ? <div>Loading...</div> 
+        : <Videos>
+            {videos.map((item)=>(
+              <Card key={`${item.snippet.publishedAt}${item.snippet.title}`}>
+                <Link to={`/${item.id.videoId}`} onClick={() => {setVideoData(item)}}>
+                  <Image src={item.snippet.thumbnails.medium.url} />
+                  <p>{item.snippet.title}</p>
+                </Link>
+              </Card>
+            ))}
+          </ Videos>
+      }
     </section>
   );
 }
